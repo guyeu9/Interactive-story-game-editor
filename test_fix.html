@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>修复测试：指令和玩法重复问题</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; }
+        .result { margin: 10px 0; padding: 10px; }
+        .play { background: #e3f2fd; }
+        .command { background: #fff3e0; }
+        .header { background: #f3e5f5; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .warning { color: orange; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>指令和玩法重复问题修复测试</h1>
+    
+    <div class="test-section">
+        <h2>修复说明</h2>
+        <p>本次修复解决了以下问题：</p>
+        <ul>
+            <li><strong>快速模式（一键生成流程）</strong>：每个指令和玩法在单次生成中只出现一次</li>
+            <li><strong>沉浸模式（剧情走向）</strong>：每个指令和玩法在整个剧情流程中只出现一次</li>
+        </ul>
+        
+        <h3>修复细节：</h3>
+        <ul>
+            <li>在快速模式中添加了 <code>usedPlayIds</code> 和 <code>usedCommandIds</code> 集合来追踪已使用的元素</li>
+            <li>在沉浸模式中过滤掉已经出现在剧情中的玩法和指令</li>
+            <li>确保每次选择都会检查是否已经使用过相同的元素</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>测试结果预期</h2>
+        <p>访问 <a href="http://localhost:5000" target="_blank">剧情织造机</a> 并进行以下测试：</p>
+        
+        <ol>
+            <li><strong>快速模式测试</strong>：
+                <ul>
+                    <li>选择一个场景（如"废弃实验室"）</li>
+                    <li>点击"一键生成流程"</li>
+                    <li>检查生成结果：每个玩法应该只出现一次</li>
+                    <li>检查生成结果：每个指令应该只出现一次</li>
+                </ul>
+            </li>
+            
+            <li><strong>沉浸模式测试</strong>：
+                <ul>
+                    <li>选择一个场景</li>
+                    <li>点击"开启剧情走向"</li>
+                    <li>在不同层级中选择玩法和指令</li>
+                    <li>检查：同一玩法/指令不会在多个层级中出现</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <div class="result warning">
+            <strong>注意：</strong>如果数据中的玩法/指令数量少于层级数量，可能在后面的层级中没有可选项，这是正常的。
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>数据示例</h2>
+        <p>当前系统中的数据：</p>
+        
+        <div class="result header">场景（2个）</div>
+        <div class="result">• 废弃实验室（S001）- 恐怖、解谜、室内</div>
+        <div class="result">• 中央公园（S002）- 开放、日间、NPC</div>
+        
+        <div class="result header">层级（3个）</div>
+        <div class="result">• 开场准备（L1_SETUP）</div>
+        <div class="result">• 核心解谜（L2_CORE）</div>
+        <div class="result">• 结局判定（L3_ENDING）</div>
+        
+        <div class="result header">玩法（4个）</div>
+        <div class="result play">• 搜寻物资（P001）- 开场准备 - 生存</div>
+        <div class="result play">• 破解密码锁（P002）- 核心解谜 - 解谜、室内</div>
+        <div class="result play">• 遭遇野狗（P003）- 核心解谜 - 开放、战斗</div>
+        <div class="result play">• 逃出生天（P004）- 结局判定 - 结局</div>
+        
+        <div class="result header">指令（3个）</div>
+        <div class="result command">• 突发地震（C001）- 全局 - 30%概率</div>
+        <div class="result command">• NPC提供线索（C002）- 场景(S002) - 50%概率</div>
+        <div class="result command">• 天气突变（C003）- 全局 - 10%概率</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>测试完成确认</h2>
+        <div class="result success" id="testComplete">
+            ✅ 修复已完成！请按照上述步骤进行测试验证。
+        </div>
+    </div>
+
+    <script>
+        // 简单的状态检查
+        window.onload = function() {
+            console.log('测试页面加载完成');
+            console.log('请访问 http://localhost:5000 进行实际功能测试');
+        };
+    </script>
+</body>
+</html>

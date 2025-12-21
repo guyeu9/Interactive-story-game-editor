@@ -1,0 +1,112 @@
+[
+  {
+    "scenes": [
+      {
+        "name": "废弃实验室",
+        "description": "阴暗潮湿的实验室，到处都是破碎的实验器材",
+        "tags": "室内,恐怖,解谜"
+      },
+      {
+        "name": "森林边缘",
+        "description": "茂密森林的边缘，阳光透过树叶洒下斑驳的光影",
+        "tags": "户外,自然,探索"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": "L1_SETUP",
+        "layer_name": "第一幕：开端",
+        "sequence": 1
+      },
+      {
+        "layer_id": "L2_CORE",
+        "layer_name": "第二幕：发展",
+        "sequence": 2
+      }
+    ],
+    "plays": [
+      {
+        "name": "寻找线索",
+        "description": "仔细搜索周围环境，寻找可能的线索",
+        "result": "发现了一张神秘的纸条",
+        "fk_layer_id": "L1_SETUP"
+      },
+      {
+        "name": "与神秘人对峙",
+        "description": "面对突然出现的神秘人物，你需要做出选择",
+        "result": "获得了关键信息",
+        "fk_layer_id": "L2_CORE"
+      }
+    ],
+    "commands": [
+      {
+        "name": "远处传来怪声",
+        "description": "突然听到远处传来的奇怪声音",
+        "probability": 30,
+        "scope_type": "GLOBAL"
+      },
+      {
+        "name": "发现隐藏通道",
+        "description": "在墙角发现了一个隐藏的通道",
+        "probability": 50,
+        "scope_type": "SCENE",
+        "fk_target_id": "S001"
+      }
+    ]
+  },
+  {
+    "scenes": [
+      {
+        "name": "太空船舰桥",
+        "description": "未来科技的太空船舰桥，巨大的显示屏显示着星空",
+        "tags": "科幻,未来,室内"
+      },
+      {
+        "name": "外星行星",
+        "description": "陌生的外星行星表面，红色的大气笼罩着大地",
+        "tags": "科幻,户外,探索"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": "L1_SETUP",
+        "layer_name": "第一幕：出发",
+        "sequence": 1
+      },
+      {
+        "layer_id": "L2_CORE",
+        "layer_name": "第二幕：探索",
+        "sequence": 2
+      }
+    ],
+    "plays": [
+      {
+        "name": "启动引擎",
+        "description": "检查并启动太空船的引擎系统",
+        "result": "引擎启动成功，准备起飞",
+        "fk_layer_id": "L1_SETUP"
+      },
+      {
+        "name": "扫描未知信号",
+        "description": "使用先进的扫描设备分析未知信号源",
+        "result": "发现了一个外星文明的遗迹",
+        "fk_layer_id": "L2_CORE"
+      }
+    ],
+    "commands": [
+      {
+        "name": "系统警报响起",
+        "description": "突然响起的系统警报声",
+        "probability": 40,
+        "scope_type": "GLOBAL"
+      },
+      {
+        "name": "发现外星生物",
+        "description": "在探索过程中遇到了外星生物",
+        "probability": 60,
+        "scope_type": "SCENE",
+        "fk_target_id": "S003"
+      }
+    ]
+  }
+]

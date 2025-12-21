@@ -1,0 +1,77 @@
+[
+  {
+    "scenes": [
+      {
+        "id": "S001",
+        "name": "森林入口",
+        "description": "幽深的森林入口，古老的树木遮天蔽日。",
+        "tags": ["户外", "森林", "神秘"]
+      },
+      {
+        "id": "S002", 
+        "name": "废弃神殿",
+        "description": "破败的神殿，石柱上刻满了古老的符文。",
+        "tags": ["室内", "遗迹", "神秘"]
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": "L001",
+        "layer_name": "探索阶段",
+        "sequence": 1
+      },
+      {
+        "layer_id": "L002", 
+        "layer_name": "战斗阶段",
+        "sequence": 2
+      }
+    ],
+    "plays": [
+      {
+        "id": "P001",
+        "name": "调查符文",
+        "description": "仔细研究石柱上的古老符文。",
+        "result": "发现了隐藏的机关",
+        "fk_layer_id": "L001",
+        "tags": ["解谜", "探索"]
+      }
+    ],
+    "commands": [
+      {
+        "id": "C001",
+        "name": "森林低语",
+        "description": "风中传来神秘的低语声。",
+        "probability": 30,
+        "scope_type": "SCENE",
+        "fk_target_id": "S001,S002"
+      }
+    ]
+  },
+  {
+    "scenes": [
+      {
+        "id": "S001",
+        "name": "太空站",
+        "description": "未来的太空站，充满科技感的金属走廊。",
+        "tags": ["室内", "科幻", "未来"]
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": "L001",
+        "layer_name": "任务简报",
+        "sequence": 1
+      }
+    ],
+    "plays": [
+      {
+        "id": "P001",
+        "name": "接受任务",
+        "description": "听取指挥官的任务简报。",
+        "result": "获得了重要情报",
+        "fk_layer_id": "L001",
+        "tags": ["剧情", "任务"]
+      }
+    ]
+  }
+]

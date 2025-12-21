@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试界面点击</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        select { padding: 8px; margin: 5px; }
+        .disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <h1>界面点击测试</h1>
+    
+    <div class="test-section">
+        <h3>模拟场景选择和按钮状态</h3>
+        <label>选择场景：</label>
+        <select id="sceneSelect" onchange="updateButtonStates()">
+            <option value="">-- 请选择 --</option>
+            <option value="S001">废弃实验室</option>
+            <option value="S002">中央公园</option>
+        </select>
+        
+        <br><br>
+        <button id="generateBtn" onclick="handleGenerate()" disabled class="disabled">
+            一键生成流程
+        </button>
+        <button id="interactiveBtn" onclick="handleInteractive()" disabled class="disabled">
+            开启剧情走向
+        </button>
+    </div>
+    
+    <div class="test-section">
+        <h3>通用点击测试</h3>
+        <button onclick="alert('点击测试成功！')">测试弹窗</button>
+        <button onclick="console.log('控制台日志测试')">控制台日志</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>当前状态</h3>
+        <p>选中场景：<span id="selectedScene">无</span></p>
+        <p>按钮状态：<span id="buttonStatus">禁用</span></p>
+    </div>
+
+    <script>
+        function updateButtonStates() {
+            const select = document.getElementById('sceneSelect');
+            const generateBtn = document.getElementById('generateBtn');
+            const interactiveBtn = document.getElementById('interactiveBtn');
+            const selectedScene = document.getElementById('selectedScene');
+            const buttonStatus = document.getElementById('buttonStatus');
+            
+            const hasScene = select.value !== '';
+            
+            generateBtn.disabled = !hasScene;
+            interactiveBtn.disabled = !hasScene;
+            
+            if (hasScene) {
+                generateBtn.classList.remove('disabled');
+                interactiveBtn.classList.remove('disabled');
+                selectedScene.textContent = select.options[select.selectedIndex].text;
+                buttonStatus.textContent = '启用';
+                buttonStatus.style.color = 'green';
+            } else {
+                generateBtn.classList.add('disabled');
+                interactiveBtn.classList.add('disabled');
+                selectedScene.textContent = '无';
+                buttonStatus.textContent = '禁用';
+                buttonStatus.style.color = 'red';
+            }
+        }
+        
+        function handleGenerate() {
+            alert('生成功能触发！当前选中场景：' + document.getElementById('sceneSelect').value);
+        }
+        
+        function handleInteractive() {
+            alert('交互模式触发！当前选中场景：' + document.getElementById('sceneSelect').value);
+        }
+        
+        // 初始化
+        updateButtonStates();
+    </script>
+</body>
+</html>

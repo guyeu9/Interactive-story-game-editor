@@ -1,0 +1,34 @@
+[
+  {
+    "scenes": [
+      {
+        "name": "测试场景1",
+        "description": "这是一个测试场景",
+        "tags": "测试,场景1"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": "L1_TEST",
+        "layer_name": "测试层级",
+        "sequence": 1
+      }
+    ],
+    "plays": [
+      {
+        "name": "测试玩法",
+        "description": "这是一个测试玩法",
+        "result": "测试结果",
+        "fk_layer_id": "L1_TEST"
+      }
+    ],
+    "commands": [
+      {
+        "name": "测试指令",
+        "description": "这是一个测试指令",
+        "probability": 20,
+        "scope_type": "GLOBAL"
+      }
+    ]
+  }
+]

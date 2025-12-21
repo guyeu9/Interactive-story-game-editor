@@ -1,0 +1,214 @@
+// 测试脚本：导入世界观数据并验证筛选功能
+const fs = require('fs');
+
+// 模拟导入数据
+const testData = [
+  {
+    "scenes": [
+      {
+        "id": "S001_FANTASY",
+        "name": "魔法学院",
+        "description": "充满神秘气息的魔法学习殿堂",
+        "tags": ["室内", "魔法", "教育"],
+        "worldview": "奇幻世界"
+      },
+      {
+        "id": "S002_FANTASY", 
+        "name": "禁忌森林",
+        "description": "被古老咒语保护的森林深处",
+        "tags": ["室外", "危险", "神秘"],
+        "worldview": "奇幻世界"
+      },
+      {
+        "id": "S001_FUTURE",
+        "name": "科技实验室",
+        "description": "充满先进设备的未来实验室",
+        "tags": ["室内", "科技", "未来"],
+        "worldview": "未来都市"
+      },
+      {
+        "id": "S002_FUTURE",
+        "name": "霓虹街道",
+        "description": "繁华的未来都市街道",
+        "tags": ["室外", "城市", "夜生活"],
+        "worldview": "未来都市"
+      },
+      {
+        "id": "S001_WAR",
+        "name": "古战场",
+        "description": "曾经发生过激烈战斗的荒凉战场",
+        "tags": ["室外", "战斗", "历史"],
+        "worldview": "古代战争"
+      },
+      {
+        "id": "S002_WAR",
+        "name": "军营帐篷",
+        "description": "简陋的军事营地",
+        "tags": ["室内", "军事", "营地"],
+        "worldview": "古代战争"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": "L_FANTASY_01",
+        "layer_name": "入学准备",
+        "sequence": 1,
+        "worldview": "奇幻世界"
+      },
+      {
+        "layer_id": "L_FANTASY_02", 
+        "layer_name": "魔法学习",
+        "sequence": 2,
+        "worldview": "奇幻世界"
+      },
+      {
+        "layer_id": "L_FUTURE_01",
+        "layer_name": "设备调试",
+        "sequence": 1,
+        "worldview": "未来都市"
+      },
+      {
+        "layer_id": "L_FUTURE_02",
+        "layer_name": "数据分析",
+        "sequence": 2,
+        "worldview": "未来都市"
+      },
+      {
+        "layer_id": "L_WAR_01",
+        "layer_name": "战前准备",
+        "sequence": 1,
+        "worldview": "古代战争"
+      },
+      {
+        "layer_id": "L_WAR_02",
+        "layer_name": "战略部署",
+        "sequence": 2,
+        "worldview": "古代战争"
+      }
+    ],
+    "plays": [
+      {
+        "id": "P_FANTASY_001",
+        "name": "选择魔杖",
+        "description": "在奥利凡德的魔杖店里，寻找与自己最契合的魔杖。",
+        "trigger_condition": "进入魔法学院",
+        "result": "获得专属魔杖，魔法能力增强",
+        "fk_layer_id": "L_FANTASY_01",
+        "tags": ["魔法", "选择", "装备"],
+        "worldview": "奇幻世界"
+      },
+      {
+        "id": "P_FANTASY_002",
+        "name": "学习咒语",
+        "description": "在教室里跟着教授学习新的防御咒语。",
+        "trigger_condition": "开始上课",
+        "result": "掌握新咒语，战斗力提升",
+        "fk_layer_id": "L_FANTASY_02",
+        "tags": ["学习", "魔法", "技能"],
+        "worldview": "奇幻世界"
+      },
+      {
+        "id": "P_FUTURE_001",
+        "name": "启动AI助手",
+        "description": "激活实验室的人工智能系统，开始进行数据分析。",
+        "trigger_condition": "进入实验室",
+        "result": "AI助手上线，获得智能支持",
+        "fk_layer_id": "L_FUTURE_01",
+        "tags": ["科技", "AI", "设备"],
+        "worldview": "未来都市"
+      },
+      {
+        "id": "P_FUTURE_002",
+        "name": "破解防火墙",
+        "description": "使用高科技设备突破目标系统的安全防护。",
+        "trigger_condition": "遇到阻碍",
+        "result": "获得系统访问权限，数据解锁",
+        "fk_layer_id": "L_FUTURE_02",
+        "tags": ["黑客", "技术", "解密"],
+        "worldview": "未来都市"
+      },
+      {
+        "id": "P_WAR_001",
+        "name": "磨利武器",
+        "description": "在军营中仔细检查和保养自己的武器装备。",
+        "trigger_condition": "战斗前夕",
+        "result": "武器锋利度提升，战斗力增强",
+        "fk_layer_id": "L_WAR_01",
+        "tags": ["准备", "装备", "军事"],
+        "worldview": "古代战争"
+      },
+      {
+        "id": "P_WAR_002",
+        "name": "制定战术",
+        "description": "与将军一起研究地形，制定最佳的作战计划。",
+        "trigger_condition": "战前会议",
+        "result": "战术完善，胜算提高",
+        "fk_layer_id": "L_WAR_02",
+        "tags": ["策略", "指挥", "智慧"],
+        "worldview": "古代战争"
+      }
+    ],
+    "commands": [
+      {
+        "id": "C_FANTASY_001",
+        "name": "魔法暴动",
+        "description": "学院魔法能量突然失控，各处出现魔法异常现象。",
+        "probability": 25,
+        "scope_type": "GLOBAL",
+        "fk_target_id": "",
+        "worldview": "奇幻世界"
+      },
+      {
+        "id": "C_FANTASY_002",
+        "name": "神秘访客",
+        "description": "一位神秘的黑袍人出现在学院门口，似乎在寻找什么。",
+        "probability": 30,
+        "scope_type": "SCENE",
+        "fk_target_id": "S001_FANTASY",
+        "worldview": "奇幻世界"
+      },
+      {
+        "id": "C_FUTURE_001",
+        "name": "系统崩溃",
+        "description": "中央计算机突然出现故障，导致全城系统瘫痪。",
+        "probability": 20,
+        "scope_type": "GLOBAL",
+        "fk_target_id": "",
+        "worldview": "未来都市"
+      },
+      {
+        "id": "C_FUTURE_002",
+        "name": "黑客入侵",
+        "description": "不明身份的黑客试图入侵实验室的网络系统。",
+        "probability": 40,
+        "scope_type": "SCENE",
+        "fk_target_id": "S001_FUTURE",
+        "worldview": "未来都市"
+      },
+      {
+        "id": "C_WAR_001",
+        "name": "敌军突袭",
+        "description": "敌方军队趁夜发动突袭，军营陷入混乱。",
+        "probability": 35,
+        "scope_type": "GLOBAL",
+        "fk_target_id": "",
+        "worldview": "古代战争"
+      },
+      {
+        "id": "C_WAR_002",
+        "name": "战马受惊",
+        "description": "战场上的战马突然受惊，影响部队士气。",
+        "probability": 25,
+        "scope_type": "SCENE",
+        "fk_target_id": "S001_WAR",
+        "worldview": "古代战争"
+      }
+    ]
+  }
+];
+
+// 输出测试数据
+fs.writeFileSync('assets/test_worldview_data.json', JSON.stringify(testData, null, 2));
+console.log('测试数据已生成: assets/test_worldview_data.json');
+console.log('数据包含3个世界观：奇幻世界、未来都市、古代战争');
+console.log('每个世界观包含2个场景、2个层级、2个玩法、2个指令');

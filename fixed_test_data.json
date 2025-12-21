@@ -1,0 +1,73 @@
+{
+  "scenes": [
+    {
+      "id": "S默认世FQ001",
+      "name": "废弃实验室",
+      "worldview": "默认世界观"
+    },
+    {
+      "id": "S默认世ZY001",
+      "name": "中央公园",
+      "worldview": "默认世界观"
+    },
+    {
+      "id": "SWYHDX001",
+      "name": "大学体育馆更衣室 - 初次潜入",
+      "worldview": "王勇和体育生故事"
+    },
+    {
+      "id": "SWYHGY001",
+      "name": "更衣室 - 初步调教",
+      "worldview": "王勇和体育生故事"
+    },
+    {
+      "id": "SWYHGY002",
+      "name": "更衣室 - 深度接触",
+      "worldview": "王勇和体育生故事"
+    },
+    {
+      "id": "SYW故HT001",
+      "name": "皇庭南卫星城办公室",
+      "worldview": "月王故事"
+    },
+    {
+      "id": "SYW故海岸001",
+      "name": "海岸运输船杂兵舱",
+      "worldview": "月王故事"
+    }
+  ],
+  "plays": [
+    {
+      "id": "P默认世搜寻001",
+      "name": "搜寻物资",
+      "worldview": "默认世界观"
+    },
+    {
+      "id": "PWYHCC001",
+      "name": "初次偷闻白袜",
+      "worldview": "王勇和体育生故事"
+    },
+    {
+      "id": "PWYH含袜001",
+      "name": "含袜拍照",
+      "worldview": "王勇和体育生故事"
+    }
+  ],
+  "commands": [
+    {
+      "id": "C默认世突发001",
+      "name": "突发地震",
+      "worldview": "默认世界观"
+    },
+    {
+      "id": "CWYHN柱001",
+      "name": "尿柱同时多股",
+      "worldview": "王勇和体育生故事"
+    },
+    {
+      "id": "CWYH围观001",
+      "name": "围观嘲笑",
+      "worldview": "王勇和体育生故事"
+    }
+  ]
+}

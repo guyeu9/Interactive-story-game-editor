@@ -1,0 +1,72 @@
+[
+  {
+    "worldview": "王勇和体育生故事",
+    "scenes": [
+      {
+        "id": "S001",
+        "name": "大学体育馆更衣室",
+        "description": "测试场景描述",
+        "tags": ["室内", "更衣室"],
+        "worldview": "王勇和体育生故事"
+      }
+    ],
+    "plays": [
+      {
+        "id": "P001",
+        "name": "初次偷闻白袜",
+        "description": "测试玩法描述",
+        "trigger_condition": "游戏开始",
+        "result": "测试结果",
+        "fk_layer_id": "L1_SETUP",
+        "tags": ["闻袜", "初次"],
+        "worldview": "王勇和体育生故事"
+      }
+    ],
+    "commands": [
+      {
+        "id": "C001",
+        "name": "全队涌入群嘲",
+        "description": "测试指令描述",
+        "probability": 55,
+        "scope_type": "GLOBAL",
+        "fk_target_id": "",
+        "worldview": "王勇和体育生故事"
+      }
+    ]
+  },
+  {
+    "worldview": "月王故事",
+    "scenes": [
+      {
+        "id": "S001",
+        "name": "皇庭南卫星城办公室",
+        "description": "测试月王场景",
+        "tags": ["室内", "办公室"],
+        "worldview": "月王故事"
+      }
+    ],
+    "plays": [
+      {
+        "id": "P001",
+        "name": "办公室游说接任务",
+        "description": "测试月王玩法",
+        "trigger_condition": "游戏开始",
+        "result": "测试结果",
+        "fk_layer_id": "L1_SETUP",
+        "tags": ["游说", "暧昧"],
+        "worldview": "月王故事"
+      }
+    ],
+    "commands": [
+      {
+        "id": "C001",
+        "name": "杂兵突然涌入嘲笑",
+        "description": "测试月王指令",
+        "probability": 55,
+        "scope_type": "SCENE",
+        "fk_target_id": "S001",
+        "worldview": "月王故事"
+      }
+    ]
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "scenes": [
+      {
+        "name": "暗黑城堡",
+        "description": "阴森恐怖的古老城堡",
+        "tags": ["恐怖", "室内", "古堡"]
+      },
+      {
+        "name": "魔法森林",
+        "description": "充满魔法的神秘森林",
+        "tags": ["魔法", "自然", "户外"]
+      }
+    ],
+    "layers": [
+      {
+        "layer_name": "探索准备",
+        "sequence": 1
+      },
+      {
+        "layer_name": "核心解谜",
+        "sequence": 2
+      }
+    ],
+    "plays": [
+      {
+        "name": "寻找宝物",
+        "description": "在城堡中寻找传说中的宝物",
+        "result": "获得魔法宝物",
+        "trigger_condition": "进入城堡"
+      },
+      {
+        "name": "破解魔法阵",
+        "description": "研究并破解森林中的魔法阵",
+        "result": "解除魔法封印",
+        "trigger_condition": "发现魔法阵"
+      }
+    ],
+    "commands": [
+      {
+        "name": "怪物出现",
+        "description": "突然出现的恐怖怪物",
+        "probability": 30,
+        "scope_type": "SCENE",
+        "fk_target_id": "暗黑城堡场景ID"
+      },
+      {
+        "name": "魔法波动",
+        "description": "森林中突然传来强烈的魔法波动",
+        "probability": 40,
+        "scope_type": "SCENE",
+        "fk_target_id": "魔法森林场景ID"
+      }
+    ]
+  }
+]
