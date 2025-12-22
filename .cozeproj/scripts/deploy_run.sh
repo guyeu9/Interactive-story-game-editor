@@ -27,14 +27,21 @@ kill_port_if_listening() {
         fi
     done
     
-    sleep 2
+    sleep 3
     
     # 再次检查
     local remaining_pids
     remaining_pids=$(lsof -ti :${DEPLOY_RUN_PORT} 2>/dev/null || true)
     if [[ -n "${remaining_pids}" ]]; then
-        echo "Warning: port ${DEPLOY_RUN_PORT} still busy after kill attempt, PIDs: ${remaining_pids}"
-        return 1
+        # 最后尝试：使用fuser强制清理
+        echo "Final attempt with fuser..."
+        fuser -k ${DEPLOY_RUN_PORT}/tcp 2>/dev/null || true
+        sleep 2
+        remaining_pids=$(lsof -ti :${DEPLOY_RUN_PORT} 2>/dev/null || true)
+        if [[ -n "${remaining_pids}" ]]; then
+            echo "Error: port ${DEPLOY_RUN_PORT} still busy after all attempts, PIDs: ${remaining_pids}"
+            exit 1
+        fi
     else
         echo "Port ${DEPLOY_RUN_PORT} cleared successfully."
     fi
