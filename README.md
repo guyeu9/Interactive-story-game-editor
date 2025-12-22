@@ -1,5 +1,16 @@
 # Interactive-story-game-editor
 剧情织造机 (Text Game Weaver)** 是一款交互式剧情游戏编辑器，让您能够轻松创建、编辑和体验丰富的文字冒险故事。无论是简单的选择剧情还是复杂的分支叙事，都能在这里实现。  ### 🎮 核心特色  - **双模式生成**：快速模式一键生成，沉浸模式逐步选择 - **智能匹配系统**：基于标签自动匹配合适的玩法和场景 - **丰富的元素库**：场景、层级、玩法、指令四大元素构建完整故事 - **本地数据持久化**：所有作品自动保存，永不丢失 - **导出分享**：支持多种格式导出，方便分享和备份
+限时体验地址：https://9yvk63xhkg.coze.site
+
+<img width="936" height="1403" alt="image" src="https://github.com/user-attachments/assets/1bcba940-f978-4140-b403-ed275bd65b93" />
+<img width="940" height="2270" alt="image" src="https://github.com/user-attachments/assets/91925787-d92a-4e4d-a420-bc066a29c4d9" />
+<img width="927" height="669" alt="image" src="https://github.com/user-attachments/assets/1666021b-a4bc-43e5-ad38-8ad88dcce101" />
+
+<img width="980" height="2102" alt="image" src="https://github.com/user-attachments/assets/c0bbf616-4dd8-4398-af88-f844d36a8b7a" />
+
+
+<img width="938" height="2694" alt="image" src="https://github.com/user-attachments/assets/6f08c92f-0f8a-41ea-8c74-1f7f728da787" />
+
 
  **双模式生成**：快速模式 + 沉浸模式
 2. **数据持久化**：自动保存 + 防抖机制
