@@ -1,0 +1,12 @@
+{
+  "name": "simple-todo-app",
+  "version": "1.0.0",
+  "description": "Simple Todo App",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000"
+  },
+  "keywords": ["todo", "app", "mobile"],
+  "author": "Developer",
+  "license": "MIT"
+}
