@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SimpleTodo" default="help">
+    <property name="target" value="android-21" />
+    <property name="src" value="src" />
+    
+    <target name="help">
+        <echo>Simple Todo Android App</echo>
+        <echo>Use Android Studio or Eclipse to build this project</echo>
+    </target>
+</project>
