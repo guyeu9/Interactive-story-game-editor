@@ -2394,6 +2394,19 @@ export default function TextGameApp() {
 
   // 新增：获取指定层级的候选选项
   const getCandidatesForCurrentLayer = (scene = currentScene, layerIndex = currentLayerIndex) => {
+    // [调试] 记录输入参数和筛选状态
+    console.log(`[getCandidatesForCurrentLayer] 输入参数:`, {
+      sceneId: scene?.id,
+      sceneName: scene?.name,
+      sceneWorldview: scene?.worldview,
+      layerIndex,
+      enableWorldviewFilter,
+      selectedWorldview,
+      totalLayers: layers.length,
+      totalPlays: plays.length,
+      totalCommands: commands.length
+    });
+
     // [关键修复] 应用世界观筛选到所有相关数据
     let filteredLayers = layers;
     let filteredPlays = plays;
@@ -2403,6 +2416,14 @@ export default function TextGameApp() {
       filteredLayers = layers.filter(l => l.worldview === selectedWorldview);
       filteredPlays = plays.filter(p => p.worldview === selectedWorldview);
       filteredCommands = commands.filter(c => c.worldview === selectedWorldview);
+      console.log(`[getCandidatesForCurrentLayer] 世界观筛选结果:`, {
+        selectedWorldview,
+        filteredLayers: filteredLayers.length,
+        filteredPlays: filteredPlays.length,
+        filteredCommands: filteredCommands.length
+      });
+    } else {
+      console.log(`[getCandidatesForCurrentLayer] 未启用世界观筛选，使用全部数据`);
     }
     
     // [修复] 确保总是返回完整的数据结构，包含 filteredData
@@ -2537,6 +2558,14 @@ export default function TextGameApp() {
     console.log(`[getCandidatesForCurrentLayer] 最终返回: 玩法=${selectedPlays.length}, 指令=${triggeredCommands.length}`);
     if (selectedPlays.length === 0 && triggeredCommands.length === 0) {
       console.warn(`[getCandidatesForCurrentLayer] 没有可用的玩法或指令！当前世界观: ${selectedWorldview}, 当前层级: ${currentLayer.layer_name}`);
+      console.warn(`[getCandidatesForCurrentLayer] 调试信息:`, {
+        enableWorldviewFilter,
+        selectedWorldview,
+        totalPlaysInWorldview: filteredPlays.length,
+        totalCommandsInWorldview: filteredCommands.length,
+        currentLayerId: currentLayer.layer_id,
+        layerPlaysCount: layerPlays.length
+      });
     }
   };
 
@@ -3800,7 +3829,16 @@ export default function TextGameApp() {
 
     // [安全检查] 确保 filteredData 存在（理论上不应触发，因为 getCandidatesForCurrentLayer 已修复）
     if (!filteredData || !filteredData.layers) {
-      console.warn('renderInteractiveMode: 筛选数据不可用，使用原始数据');
+      console.warn('renderInteractiveMode: 筛选数据不可用');
+      console.warn('[renderInteractiveMode] 调试信息:', {
+        result,
+        currentSceneId: currentScene?.id,
+        currentSceneName: currentScene?.name,
+        currentSceneWorldview: currentScene?.worldview,
+        currentLayerIndex,
+        enableWorldviewFilter,
+        selectedWorldview
+      });
       // 返回一个加载状态或空状态
       return (
         <div className="flex items-center justify-center h-64 text-slate-500">
@@ -4150,7 +4188,27 @@ export default function TextGameApp() {
                   当前世界观筛选：{selectedWorldview}
                 </div>
               )}
-              <div className="text-slate-400 text-sm">你可以直接结束故事或返回上级</div>
+              <div className="text-slate-400 text-sm">
+                {enableWorldviewFilter && selectedWorldview
+                  ? `该世界观下暂无玩法或指令数据，请尝试关闭世界观筛选或切换其他世界观。`
+                  : `你可以直接结束故事或返回上级。`
+                }
+              </div>
+              {enableWorldviewFilter && (
+                <button
+                  onClick={() => {
+                    setEnableWorldviewFilter(false);
+                    setSelectedWorldview("");
+                    // 重新加载候选选项
+                    const { plays: newPlays, commands: newCommands } = getCandidatesForCurrentLayer(currentScene, currentLayerIndex);
+                    setCandidatePlays(newPlays);
+                    setCandidateCommands(newCommands);
+                  }}
+                  className="mt-4 text-sm text-indigo-600 hover:text-indigo-800 underline"
+                >
+                  关闭世界观筛选，显示全部数据
+                </button>
+              )}
             </div>
           )}
 
