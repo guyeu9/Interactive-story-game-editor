@@ -2444,6 +2444,9 @@ export default function TextGameApp() {
     // 获取玩法候选（基于标签匹配 + 使用筛选后的数据）
     let layerPlays = filteredPlays.filter(p => p.fk_layer_id === currentLayer.layer_id);
     
+    // [调试] 记录初始筛选结果
+    console.log(`[getCandidatesForCurrentLayer] 当前层级: ${currentLayer.layer_name} (${currentLayer.layer_id}), 筛选后玩法数量: ${layerPlays.length}`);
+    
     // [修复] 过滤已经使用过的玩法，确保每个玩法在故事中只出现一次
     const usedPlayIds = interactiveStory
       .filter(item => item.type === 'play')
@@ -2454,16 +2457,23 @@ export default function TextGameApp() {
       })
       .filter(id => id !== null);
     
+    console.log(`[getCandidatesForCurrentLayer] 已使用玩法ID: ${usedPlayIds.join(', ') || '无'}`);
+    
     layerPlays = layerPlays.filter(p => !usedPlayIds.includes(p.id));
+    console.log(`[getCandidatesForCurrentLayer] 过滤已使用后玩法数量: ${layerPlays.length}`);
     
     const scoredPlays = layerPlays.map(p => {
       const matchCount = p.tags.filter(t => scene.tags.includes(t)).length;
       return { ...p, score: matchCount };
     });
     
+    console.log(`[getCandidatesForCurrentLayer] 场景标签: ${scene.tags.join(', ')}`);
+    console.log(`[getCandidatesForCurrentLayer] 评分结果: ${JSON.stringify(scoredPlays.map(p => ({ name: p.name, score: p.score, tags: p.tags })))}`);
+    
     // 选择最匹配的3-4个玩法
-    const maxScore = Math.max(...scoredPlays.map(p => p.score));
-    const matchedPlays = maxScore > 0
+    // [修复] 检查 scoredPlays 是否为空，避免 maxScore 为 -Infinity
+    const maxScore = scoredPlays.length > 0 ? Math.max(...scoredPlays.map(p => p.score)) : -1;
+    const matchedPlays = maxScore > 0 && scoredPlays.length > 0
       ? scoredPlays.filter(p => p.score === maxScore)
       : layerPlays;
     
@@ -2486,6 +2496,8 @@ export default function TextGameApp() {
       return false;
     });
 
+    console.log(`[getCandidatesForCurrentLayer] 作用域筛选后指令数量: ${possibleCommands.length}`);
+
     // [修复] 过滤已经使用过的指令，确保每个指令在故事中只出现一次
     const usedCommandIds = interactiveStory
       .filter(item => item.type === 'command')
@@ -2496,7 +2508,11 @@ export default function TextGameApp() {
       })
       .filter(id => id !== null);
 
+    console.log(`[getCandidatesForCurrentLayer] 已使用指令ID: ${usedCommandIds.join(', ') || '无'}`);
+
     possibleCommands = possibleCommands.filter(c => !usedCommandIds.includes(c.id));
+
+    console.log(`[getCandidatesForCurrentLayer] 过滤已使用后指令数量: ${possibleCommands.length}`);
 
     const triggeredCommands = possibleCommands.filter(cmd => {
       const roll = Math.random() * 100;
@@ -2516,6 +2532,12 @@ export default function TextGameApp() {
         commands: filteredCommands
       }
     };
+
+    // [调试] 输出最终结果
+    console.log(`[getCandidatesForCurrentLayer] 最终返回: 玩法=${selectedPlays.length}, 指令=${triggeredCommands.length}`);
+    if (selectedPlays.length === 0 && triggeredCommands.length === 0) {
+      console.warn(`[getCandidatesForCurrentLayer] 没有可用的玩法或指令！当前世界观: ${selectedWorldview}, 当前层级: ${currentLayer.layer_name}`);
+    }
   };
 
   // 新增：处理用户选择
