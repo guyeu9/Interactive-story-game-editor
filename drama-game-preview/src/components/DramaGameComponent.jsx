@@ -2561,7 +2561,8 @@ export default function TextGameApp() {
             layerName: currentLayer.layer_name,
             title: play.name,
             content: play.description,
-            result: play.result
+            result: play.result,
+            worldview: play.worldview  // [新增] 保存世界观信息
           });
           console.log(`添加玩法: ${play.name} (所属世界观: ${play.worldview})`);
         } else {
@@ -2588,13 +2589,14 @@ export default function TextGameApp() {
           const targetIds = cmd.fk_target_id ? cmd.fk_target_id.split(',').map(id => id.trim()).filter(Boolean) : [];
           isValidScope = targetIds.includes(currentLayer.layer_id);
         }
-        
+
         if (isValidScope) {
           newStoryItems.push({
             type: 'command',
             title: cmd.name,
             content: cmd.description,
-            scope: cmd.scope_type
+            scope: cmd.scope_type,
+            worldview: cmd.worldview  // [新增] 保存世界观信息
           });
           console.log(`添加指令: ${cmd.name} (所属世界观: ${cmd.worldview})`);
         } else {
@@ -3833,12 +3835,34 @@ export default function TextGameApp() {
                 <div className="mt-1 text-xs bg-slate-100 inline-block px-2 py-1 rounded text-slate-500">
                   结果: {item.result}
                 </div>
+                {/* [新增] 显示世界观标签 */}
+                {item.worldview && (
+                  <div className={`mt-1 text-xs px-2 py-1 rounded inline-block ${
+                    enableWorldviewFilter && selectedWorldview && item.worldview !== selectedWorldview
+                      ? 'bg-red-100 text-red-700'
+                      : 'bg-purple-100 text-purple-700'
+                  }`}>
+                    {item.worldview}
+                  </div>
+                )}
               </div>
             );
             if (item.type === 'command') return (
               <div key={idx} className="ml-6 bg-amber-50 border border-amber-100 p-3 rounded-lg my-2">
-                <div className="flex items-center text-amber-700 text-xs font-bold mb-1">
-                  <Zap size={12} className="mr-1" /> 突发指令 ({item.scope})
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center text-amber-700 text-xs font-bold">
+                    <Zap size={12} className="mr-1" /> 突发指令 ({item.scope})
+                  </div>
+                  {/* [新增] 显示世界观标签 */}
+                  {item.worldview && (
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      enableWorldviewFilter && selectedWorldview && item.worldview !== selectedWorldview
+                        ? 'bg-red-100 text-red-700'
+                        : 'bg-purple-100 text-purple-700'
+                    }`}>
+                      {item.worldview}
+                    </span>
+                  )}
                 </div>
                 <div className="text-sm font-medium text-slate-800">{item.title}</div>
                 <div className="text-xs text-slate-600">{item.content}</div>
@@ -3921,7 +3945,19 @@ export default function TextGameApp() {
                             }}
                           />
                           <div className="flex-1">
-                            <div className="font-medium text-slate-800">{play.name}</div>
+                            <div className="flex items-start justify-between">
+                              <div className="font-medium text-slate-800">{play.name}</div>
+                              {/* 显示世界观标签 */}
+                              {play.worldview && (
+                                <span className={`text-xs px-2 py-1 rounded ${
+                                  enableWorldviewFilter && selectedWorldview && play.worldview !== selectedWorldview
+                                    ? 'bg-red-100 text-red-700'
+                                    : 'bg-purple-100 text-purple-700'
+                                }`}>
+                                  {play.worldview}
+                                </span>
+                              )}
+                            </div>
                             <div className="text-sm text-slate-600 mt-1">{play.description}</div>
                             <div className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded mt-2 inline-block">
                               结果: {play.result}
@@ -4035,7 +4071,19 @@ export default function TextGameApp() {
                             }}
                           />
                           <div className="flex-1">
-                            <div className="font-medium text-slate-800">{cmd.name}</div>
+                            <div className="flex items-start justify-between">
+                              <div className="font-medium text-slate-800">{cmd.name}</div>
+                              {/* 显示世界观标签 */}
+                              {cmd.worldview && (
+                                <span className={`text-xs px-2 py-1 rounded ${
+                                  enableWorldviewFilter && selectedWorldview && cmd.worldview !== selectedWorldview
+                                    ? 'bg-red-100 text-red-700'
+                                    : 'bg-purple-100 text-purple-700'
+                                }`}>
+                                  {cmd.worldview}
+                                </span>
+                              )}
+                            </div>
                             <div className="text-sm text-slate-600 mt-1">{cmd.description}</div>
                             <div className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded mt-2 inline-block">
                               作用域: {cmd.scope_type}
@@ -4054,6 +4102,11 @@ export default function TextGameApp() {
           ) : (
             <div className="text-center py-6">
               <div className="text-slate-500 text-lg mb-2">当前没有可选的行动</div>
+              {enableWorldviewFilter && selectedWorldview && (
+                <div className="text-amber-600 text-sm mb-2">
+                  当前世界观筛选：{selectedWorldview}
+                </div>
+              )}
               <div className="text-slate-400 text-sm">你可以直接结束故事或返回上级</div>
             </div>
           )}
