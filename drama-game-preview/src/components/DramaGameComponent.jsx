@@ -3501,19 +3501,19 @@ export default function TextGameApp() {
       {/* [修复] 获取所有玩法关联的层级，包括动态层级 */}
       {(() => {
         // 获取筛选后的层级数据
-        const filteredLayers = enableWorldviewFilter && selectedWorldview 
+        const filteredLayers = enableWorldviewFilter && selectedWorldview
           ? layers.filter(l => l.worldview === selectedWorldview)
           : layers;
-        
+
         // 按sequence排序
         const sortedLayers = [...filteredLayers].sort((a, b) => a.sequence - b.sequence);
-        
-        // 获取筛选后的玩法数据
-        const filteredPlays = filterByWorldview(plays, 'play');
-        
+
+        // [关键修复] 玩法管理界面显示全部玩法，不受世界观筛选影响
+        const filteredPlays = plays; // 直接使用全部玩法，不进行世界观筛选
+
         // [关键修复] 收集所有玩法关联的层级ID，包括不存在的层级
         const allLayerIdsFromPlays = [...new Set(filteredPlays.map(p => p.fk_layer_id))];
-        
+
         // [关键修复] 为不存在的层级创建虚拟层级条目
         const virtualLayers = allLayerIdsFromPlays
           .filter(layerId => !sortedLayers.find(l => l.layer_id === layerId))
@@ -3524,10 +3524,10 @@ export default function TextGameApp() {
             isVirtual: true, // 标记为虚拟层级
             worldview: filteredPlays.find(p => p.fk_layer_id === layerId)?.worldview || ""
           }));
-        
+
         // 合并真实层级和虚拟层级
         const allLayers = [...sortedLayers, ...virtualLayers].sort((a, b) => a.sequence - b.sequence);
-        
+
         return allLayers.map(layer => {
           const layerPlays = filteredPlays.filter(p => p.fk_layer_id === layer.layer_id);
           if (layerPlays.length === 0) return null;
