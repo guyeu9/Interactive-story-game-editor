@@ -155,6 +155,11 @@ export const logError = (error, errorInfo = null, context = null) => {
 
 // 性能监控
 export const logPerformance = (name, startTime, endTime = null, data = null) => {
+  // 检查浏览器环境
+  if (typeof performance === 'undefined') {
+    return 0;
+  }
+  
   const duration = endTime ? endTime - startTime : performance.now() - startTime;
   logger.info('PERFORMANCE', `${name} 耗时`, {
     duration: `${duration.toFixed(2)}ms`,

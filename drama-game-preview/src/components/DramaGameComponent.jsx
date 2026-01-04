@@ -1219,6 +1219,18 @@ export default function TextGameApp() {
 
   // [新增] 根据世界观过滤数据 - 增强日志版本
   const filterByWorldview = (data, type) => {
+    // 检查浏览器环境
+    if (typeof performance === 'undefined') {
+      // SSR 环境下直接返回数据，不做性能监控
+      if (!enableWorldviewFilter || !selectedWorldview) {
+        return data;
+      }
+      return data.filter((item) => {
+        const itemWorldview = item.worldview || '';
+        return itemWorldview === selectedWorldview;
+      });
+    }
+    
     const startTime = performance.now();
     
     logger.info('WORLDVIEW_FILTER', '开始世界观筛选', {
@@ -1270,7 +1282,6 @@ export default function TextGameApp() {
     });
     
     const endTime = performance.now();
-    
     logger.info('WORLDVIEW_FILTER', '世界观筛选完成', {
       type,
       selectedWorldview,
@@ -1920,7 +1931,8 @@ export default function TextGameApp() {
 
   // --- 随机生成器逻辑 (世界观支持) ---
   const handleGenerateStory = () => {
-    const startTime = performance.now();
+    // 检查浏览器环境
+    const startTime = typeof performance !== 'undefined' ? performance.now() : 0;
     
     logger.info('STORY_GENERATION', '开始生成故事', {
       selectedSceneId,
@@ -2147,7 +2159,8 @@ export default function TextGameApp() {
 
   // 新增：开启剧情走向模式 - 增强日志版本
   const startInteractiveMode = () => {
-    const startTime = performance.now();
+    // 检查浏览器环境
+    const startTime = typeof performance !== 'undefined' ? performance.now() : 0;
     
     logger.info('INTERACTIVE_MODE', '开始进入剧情走向模式', {
       selectedSceneId,
