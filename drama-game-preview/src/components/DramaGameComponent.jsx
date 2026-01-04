@@ -3737,7 +3737,23 @@ export default function TextGameApp() {
   // 新增：剧情走向模式渲染函数
   const renderInteractiveMode = () => {
     // [关键修复] 使用getCandidatesForCurrentLayer获取筛选后的数据，确保数据一致性
-    const { filteredData } = getCandidatesForCurrentLayer(currentScene, currentLayerIndex);
+    const result = getCandidatesForCurrentLayer(currentScene, currentLayerIndex);
+    const { filteredData } = result || {};
+    
+    // [安全检查] 确保 filteredData 存在
+    if (!filteredData || !filteredData.layers) {
+      console.warn('renderInteractiveMode: 筛选数据不可用，使用原始数据');
+      // 返回一个加载状态或空状态
+      return (
+        <div className="flex items-center justify-center h-64 text-slate-500">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+            <p>正在加载剧情数据...</p>
+          </div>
+        </div>
+      );
+    }
+    
     const filteredLayers = filteredData.layers;
     const sortedLayers = [...filteredLayers].sort((a, b) => a.sequence - b.sequence);
     
