@@ -2405,12 +2405,33 @@ export default function TextGameApp() {
       filteredCommands = commands.filter(c => c.worldview === selectedWorldview);
     }
     
-    if (!scene || !filteredLayers || filteredLayers.length === 0) return { plays: [], commands: [] };
+    // [修复] 确保总是返回完整的数据结构，包含 filteredData
+    if (!scene || !filteredLayers || filteredLayers.length === 0) {
+      return {
+        plays: [],
+        commands: [],
+        filteredData: {
+          layers: filteredLayers || [],
+          plays: filteredPlays || [],
+          commands: filteredCommands || []
+        }
+      };
+    }
     
     const sortedLayers = [...filteredLayers].sort((a, b) => a.sequence - b.sequence);
     
     // [关键修复] 防止索引越界，确保当前层级存在
-    if (layerIndex >= sortedLayers.length) return { plays: [], commands: [] };
+    if (layerIndex >= sortedLayers.length) {
+      return {
+        plays: [],
+        commands: [],
+        filteredData: {
+          layers: sortedLayers,
+          plays: filteredPlays,
+          commands: filteredCommands
+        }
+      };
+    }
     
     const currentLayer = sortedLayers[layerIndex];
     
@@ -3755,7 +3776,7 @@ export default function TextGameApp() {
     const result = getCandidatesForCurrentLayer(currentScene, currentLayerIndex);
     const { filteredData } = result || {};
 
-    // [安全检查] 确保 filteredData 存在
+    // [安全检查] 确保 filteredData 存在（理论上不应触发，因为 getCandidatesForCurrentLayer 已修复）
     if (!filteredData || !filteredData.layers) {
       console.warn('renderInteractiveMode: 筛选数据不可用，使用原始数据');
       // 返回一个加载状态或空状态
