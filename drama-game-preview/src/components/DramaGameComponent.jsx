@@ -625,6 +625,11 @@ export default function TextGameApp() {
 
   // 初始化时加载数据
   useEffect(() => {
+    // 检查是否在浏览器环境
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return;
+    }
+    
     loadPersistedData();
   }, []);
 
