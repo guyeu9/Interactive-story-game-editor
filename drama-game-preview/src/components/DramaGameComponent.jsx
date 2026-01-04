@@ -364,6 +364,11 @@ export default function TextGameApp() {
   // 安全的LocalStorage操作函数
   const safeLocalStorage = {
     get: (key, defaultValue = null) => {
+      // 检查是否在浏览器环境
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return defaultValue;
+      }
+      
       try {
         const item = localStorage.getItem(key);
         return item ? JSON.parse(item) : defaultValue;
@@ -374,6 +379,11 @@ export default function TextGameApp() {
     },
     
     set: (key, value) => {
+      // 检查是否在浏览器环境
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return false;
+      }
+      
       try {
         localStorage.setItem(key, JSON.stringify(value));
         return true;
@@ -388,6 +398,11 @@ export default function TextGameApp() {
     },
     
     remove: (key) => {
+      // 检查是否在浏览器环境
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return false;
+      }
+      
       try {
         localStorage.removeItem(key);
         return true;
@@ -400,6 +415,11 @@ export default function TextGameApp() {
 
   // 数据加载函数（组件初始化时执行）
   const loadPersistedData = () => {
+    // 检查是否在浏览器环境
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return;
+    }
+    
     logger.info('DATA_LOAD', '开始加载数据');
     
     const loadItem = (key, setter, initialValue) => {
@@ -610,6 +630,11 @@ export default function TextGameApp() {
 
   // 页面卸载时保存数据
   useEffect(() => {
+    // 检查是否在浏览器环境
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
     const handleBeforeUnload = (e) => {
       saveAllData();
     };
