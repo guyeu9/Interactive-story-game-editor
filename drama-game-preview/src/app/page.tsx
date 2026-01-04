@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import DramaGameComponent from '@/components/DramaGameComponent';
+import DramaGameComponent from '@/components/DramaGameComponent.jsx';
 
 export default function Home() {
   return (

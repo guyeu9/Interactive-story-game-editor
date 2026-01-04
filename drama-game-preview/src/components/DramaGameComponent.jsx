@@ -231,6 +231,11 @@ const CheckboxList = ({ name, options, selectedValues, onChange, required = fals
 export default function TextGameApp() {
   // 全局错误捕获
   useEffect(() => {
+    // 检查是否在浏览器环境
+    if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+      return;
+    }
+
     const handleError = (event) => {
       logError(event.error || new Error(event.message), {
         filename: event.filename,
