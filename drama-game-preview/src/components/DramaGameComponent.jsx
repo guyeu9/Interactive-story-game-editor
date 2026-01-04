@@ -2363,7 +2363,7 @@ export default function TextGameApp() {
     showToast(`成功创建 ${newLayers.length} 个缺失层级`, "success");
   };
   const exitInteractiveMode = () => {
-    if (confirm("确定要退出剧情走向模式吗？当前进度将不会保存到历史记录。")) {
+    if (typeof window !== 'undefined' && window.confirm && window.confirm("确定要退出剧情走向模式吗？当前进度将不会保存到历史记录。")) {
       setInteractiveMode(false);
       setCurrentLayerIndex(0);
       setInteractiveStory([]);
@@ -4037,7 +4037,7 @@ export default function TextGameApp() {
               size="lg"
               className="bg-amber-100 text-amber-700 hover:bg-amber-200 font-bold"
               onClick={() => {
-                if (confirm(`确定要结束故事吗？当前在第 ${currentLayerIndex + 1} 幕，已选择 ${selectedChoices.length + selectedCommands.length} 项。`)) {
+                if (typeof window !== 'undefined' && window.confirm && window.confirm(`确定要结束故事吗？当前在第 ${currentLayerIndex + 1} 幕，已选择 ${selectedChoices.length + selectedCommands.length} 项。`)) {
                   // 主动结束故事，保存当前进度
                   setGeneratedHistory(prev => [{
                     timestamp: Date.now(),
@@ -4082,7 +4082,7 @@ export default function TextGameApp() {
                 size="lg"
                 className="bg-amber-100 text-amber-700 hover:bg-amber-200 font-bold"
                 onClick={() => {
-                  if (confirm(`确定要结束故事吗？当前已完成所有 ${sortedLayers.length} 幕。`)) {
+                  if (typeof window !== 'undefined' && window.confirm && window.confirm(`确定要结束故事吗？当前已完成所有 ${sortedLayers.length} 幕。`)) {
                     // 主动结束故事，保存当前进度
                     setGeneratedHistory(prev => [{
                       timestamp: Date.now(),
@@ -4386,7 +4386,7 @@ export default function TextGameApp() {
             size="md"
             className="w-full"
             onClick={() => {
-              if (confirm("确定要清空所有本地数据吗？此操作不可撤销，包括场景、层级、玩法、指令、历史记录等所有数据。")) {
+              if (typeof window !== 'undefined' && window.confirm && window.confirm("确定要清空所有本地数据吗？此操作不可撤销，包括场景、层级、玩法、指令、历史记录等所有数据。")) {
                 clearAllData();
                 setScenes(INITIAL_SCENES);
                 setLayers(INITIAL_LAYERS);
