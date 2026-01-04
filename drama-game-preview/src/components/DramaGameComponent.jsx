@@ -2319,8 +2319,6 @@ export default function TextGameApp() {
     showToast("进入剧情走向模式");
     setCandidatePlays(plays);
     setCandidateCommands(commands);
-    
-    showToast("进入剧情走向模式");
   };
 
   // 新增：自动创建缺失的层级
@@ -4450,7 +4448,8 @@ export default function TextGameApp() {
         ].map(item => {
           const handleTabClick = () => {
             if (interactiveMode && item.id !== 'generator') {
-              if (confirm("剧情走向进行中，切换Tab将丢失当前进度。确定要继续吗？")) {
+              // 使用原生 confirm 时确保在浏览器环境
+              if (typeof window !== 'undefined' && window.confirm && window.confirm("剧情走向进行中，切换Tab将丢失当前进度。确定要继续吗？")) {
                 setInteractiveMode(false);
                 setCurrentLayerIndex(0);
                 setInteractiveStory([]);

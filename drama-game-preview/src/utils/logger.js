@@ -100,6 +100,12 @@ export class Logger {
 
   // 导出日志
   exportLogs() {
+    // 检查浏览器环境
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      console.warn('无法在非浏览器环境中导出日志');
+      return;
+    }
+
     const logData = {
       exportTime: this.timestamp(),
       totalLogs: this.logs.length,
