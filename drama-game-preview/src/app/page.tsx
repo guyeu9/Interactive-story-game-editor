@@ -22,14 +22,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-      
-      <footer className="bg-white border-t mt-8">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-gray-500">
-            剧情游戏编辑器预览界面 | 基于 Next.js 构建
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
