@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "clean": "pnpm store prune && rm -rf .next node_modules tsconfig.tsbuildinfo pnpm-lock.yaml",

@@ -28,6 +28,13 @@ import {
   FileSearch
 } from 'lucide-react';
 import { logger, logUserAction, logDataChange, logError, logPerformance } from '../utils/logger';
+import { 
+  exportProjectBackup, 
+  exportScenes, 
+  exportPlays, 
+  exportLayers, 
+  exportCommands 
+} from '../utils/downloadHelper';
 import LogViewer from './LogViewer';
 
 /**
@@ -4600,6 +4607,72 @@ export default function TextGameApp() {
           >
             <Trash2 size={16} className="mr-2" />
             清空所有数据
+          </Button>
+        </div>
+      </Card>
+
+      {/* 新增: Android APK 构建 */}
+      <Card>
+        <h3 className="font-bold text-slate-800 flex items-center"><FileText size={18} className="mr-2 text-indigo-600"/> Android APK 构建</h3>
+        <p className="text-sm text-slate-500 mt-2">
+          将应用打包为 Android APK，可在手机上安装使用。
+        </p>
+        
+        <div className="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
+          <p className="text-xs text-amber-800 font-medium">
+            ⚠️ 注意：APK 构建需要在服务器端进行，构建完成后会自动触发下载。
+          </p>
+        </div>
+
+        <div className="space-y-3 mt-4">
+          <Button
+            variant="secondary"
+            size="md"
+            className="w-full"
+            onClick={async () => {
+              showToast("开始构建 APK，请稍候...", "success");
+              
+              try {
+                const response = await fetch('/api/build-apk', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ buildType: 'static' })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                  showToast("APK 构建成功，正在下载...", "success");
+                  
+                  // 触发下载
+                  const downloadLink = document.createElement('a');
+                  downloadLink.href = result.apkPath;
+                  downloadLink.download = result.fileName;
+                  document.body.appendChild(downloadLink);
+                  downloadLink.click();
+                  document.body.removeChild(downloadLink);
+                } else {
+                  showToast("APK 构建失败: " + result.message, "error");
+                }
+              } catch (error) {
+                console.error('构建 APK 时出错:', error);
+                showToast("构建 APK 时出错，请查看日志", "error");
+              }
+            }}
+          >
+            <Download size={16} className="mr-2" />
+            构建并下载 APK
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full"
+            onClick={() => {
+              window.open('/APK_BUILD_GUIDE.md', '_blank');
+            }}
+          >
+            查看构建指南
           </Button>
         </div>
       </Card>

@@ -24,6 +24,9 @@ public/sw.js.map
 # production
 /build
 
+# APK build output
+/apk-output
+
 # misc
 .DS_Store
 *.pem
