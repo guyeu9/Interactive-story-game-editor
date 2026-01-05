@@ -4,8 +4,11 @@ set -e
 echo "Cleaning previous build artifacts..."
 rm -rf node_modules .next tsconfig.tsbuildinfo
 
-echo "Installing production dependencies only..."
-pnpm install --prod
+echo "Pruning pnpm store cache..."
+pnpm store prune
+
+echo "Installing all dependencies for build..."
+pnpm install
 
 echo "Building for production..."
 pnpm run build
