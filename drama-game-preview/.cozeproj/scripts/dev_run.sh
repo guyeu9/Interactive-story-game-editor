@@ -2,4 +2,4 @@
 set -e
 
 echo "Starting dev server on port 5000..."
-PORT=5000 HOSTNAME=0.0.0.0 pnpm run dev
+pnpm run dev -- --port 5000 --host 0.0.0.0
