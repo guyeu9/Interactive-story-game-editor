@@ -25,23 +25,16 @@ echo "Building for production..."
 pnpm run build
 
 echo "Cleaning up for minimal deployment..."
-# 删除所有不必要的文件，最小化构建产物
+# 删除构建缓存
 rm -rf .next/cache
 rm -rf .next/trace*
 
 # 使用 standalone 模式，删除完整的 node_modules
 if [ -d ".next/standalone" ]; then
-  echo "Standalone build detected, creating minimal deployment..."
+  echo "Standalone build detected, optimizing deployment..."
 
   # 删除完整的 node_modules（替换为 standalone 版本）
   rm -rf node_modules
-
-  # 删除源代码（生产环境不需要）
-  rm -rf src
-
-  # 删除开发配置文件
-  rm -f eslint.config.mjs tsconfig.json postcss.config.mjs next-env.d.ts
-  rm -f .npmrc
 
   # 删除文档文件
   rm -f README.md GUIDE.md QUICK_START.md EXAMPLES.md PROJECT_EXPORT.md
@@ -49,12 +42,15 @@ if [ -d ".next/standalone" ]; then
   # 删除 package-lock.json（保留 pnpm-lock.yaml）
   rm -f package-lock.json
 
+  # 删除开发配置文件
+  rm -f eslint.config.mjs postcss.config.mjs .npmrc
+
+  # 保留 src 目录（某些部署流程可能需要检查源码）
   # 删除 npm-wrapper.sh（生产环境不需要）
   rm -f .cozeproj/scripts/npm-wrapper.sh
 
-  # 只保留必要的部署脚本
-  echo "Removed development files and source code"
   echo "Node modules replaced with standalone version"
+  echo "Development files removed (src directory preserved)"
 else
   echo "Warning: Standalone build not found"
 fi
