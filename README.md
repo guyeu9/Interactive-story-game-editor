@@ -51,3 +51,42 @@
    - ✅ 批量导入时自动世界观识别
    - ✅ 世界观标签功能，支持数据分类、筛选和导入导出
    - ✅ 在所有批量导入界面增加世界观输入框
+
+---
+
+## 📱 Android APK 自动构建
+
+本项目支持通过 GitHub Actions 自动构建 Android APK，无需本地开发环境。
+
+### 快速开始
+
+1. **推送代码到 main 分支**
+   ```bash
+   git push origin main
+   ```
+
+2. **等待构建完成**（约 5-10 分钟）
+   - 进入 GitHub 仓库的 "Actions" 标签页
+   - 查看 "Build Android APK" 工作流运行状态
+
+3. **下载 APK**
+   - 在工作流运行页面的 "Artifacts" 部分下载
+   - 解压后获得 `.apk` 文件
+
+### 手动触发
+
+进入 Actions 页面 → 选择 "Build Android APK" → 点击 "Run workflow"
+
+### 详细文档
+
+👉 查看 [Android APK 构建完整指南](./ANDROID_BUILD.md)
+
+### 功能特性
+
+- 🚀 自动化构建，零本地配置
+- 📦 自动上传构建产物（保留 30 天）
+- 🔐 支持 APK 签名（可选）
+- 🎯 支持手动触发和自动触发
+- 💻 使用 Cordova + Android SDK
+
+---

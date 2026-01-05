@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>剧情织造机</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' *;">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+            color: #333;
+        }
+        
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.95); 
+            border-radius: 20px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
+            overflow: hidden; 
+            backdrop-filter: blur(10px);
+            min-height: calc(100vh - 32px);
+        }
+        
+        .header { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            padding: 24px 20px; 
+            text-align: center; 
+        }
+        
+        .header h1 { 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin-bottom: 6px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 13px;
+        }
+        
+        .content { 
+            padding: 24px 20px; 
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box h4 {
+            color: #1565c0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .info-box p {
+            color: #424242;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f5f5f5;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+        }
+        
+        @media (max-width: 600px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>剧情织造机</h1>
+            <p>Interactive Story Game Editor</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h4>📱 移动端应用</h4>
+                <p>这是剧情织造机的 Android 原生应用版本，提供更流畅的用户体验和本地存储功能。</p>
+            </div>
+            
+            <div class="section-title">
+                <span>🎮</span> 核心功能
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>📖 故事编辑</h3>
+                    <p>创建复杂的分支剧情，管理角色、场景和对话选项</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎭 角色管理</h3>
+                    <p>设计丰富的人物形象，定义性格特征和背景故事</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎬 场景设置</h3>
+                    <p>布置故事场景，添加背景图片和音效</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💾 数据同步</h3>
+                    <p>本地存储进度，支持云端同步你的创作内容</p>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <span>⚡</span> 快速开始
+            </div>
+            
+            <button class="btn" onclick="startCreating()">
+                开始创作
+            </button>
+            <button class="btn" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); margin-top: 8px;" onclick="loadProject()">
+                打开项目
+            </button>
+            <button class="btn" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); margin-top: 8px;" onclick="showHelp()">
+                使用帮助
+            </button>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>在线</span>
+            </div>
+            <div id="version">v1.0.0</div>
+        </div>
+    </div>
+
+    <script>
+        // Cordova 设备就绪事件
+        document.addEventListener('deviceready', function() {
+            console.log('Cordova is ready');
+            console.log('Device:', device.platform, device.version);
+            
+            // 设置状态栏样式
+            if (window.StatusBar) {
+                StatusBar.backgroundColorByHexString('#667eea');
+                StatusBar.styleLightContent();
+            }
+        }, false);
+
+        // 开始创作
+        function startCreating() {
+            alert('即将打开故事编辑器...\n\n完整功能开发中，敬请期待！');
+        }
+
+        // 加载项目
+        function loadProject() {
+            alert('项目列表\n\n目前没有保存的项目。\n创建你的第一个故事吧！');
+        }
+
+        // 显示帮助
+        function showHelp() {
+            const helpText = `
+使用指南：
+
+1. 创建故事
+   - 点击"开始创作"创建新故事
+   - 设置故事标题和简介
+
+2. 编辑内容
+   - 添加角色和场景
+   - 编写对话和分支选项
+
+3. 预览测试
+   - 实时预览游戏效果
+   - 调整剧情分支
+
+4. 保存导出
+   - 自动保存进度
+   - 导出为游戏包
+            `;
+            alert(helpText.trim());
+        }
+
+        // 初始化
+        window.addEventListener('load', function() {
+            console.log('App loaded');
+            // 加载保存的数据
+            loadSavedData();
+        });
+
+        // 加载保存的数据
+        function loadSavedData() {
+            try {
+                const savedData = localStorage.getItem('dramaweaver_data');
+                if (savedData) {
+                    console.log('Loaded saved data');
+                }
+            } catch (e) {
+                console.error('Failed to load data:', e);
+            }
+        }
+    </script>
+</body>
+</html>
