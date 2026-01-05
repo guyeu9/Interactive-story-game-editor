@@ -1,0 +1,269 @@
+`yaml
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Cordova CLI
+        run: |
+          npm install -g cordova@12.0.0
+          cordova --version
+
+      - name: Create Cordova project structure
+        run: |
+          cd cordova-todo
+          if [ ! -d "todo-cordova" ]; then
+            echo "Creating Cordova project..."
+            cordova create todo-cordova com.dramaweaver.app 剧情织造机
+          fi
+
+      - name: Copy www files
+        run: |
+          mkdir -p cordova-todo/todo-cordova/www
+          if [ -f "cordova-todo/www/index.html" ]; then
+            cp -r cordova-todo/www/* cordova-todo/todo-cordova/www/
+          else
+            echo "Creating default index.html..."
+            cat > cordova-todo/todo-cordova/www/index.html << 'EOF'
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+          <title>剧情织造机</title>
+          <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' *;">
+          <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body { 
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  min-height: 100vh;
+                  padding: 20px;
+              }
+              .container { 
+                  max-width: 800px; 
+                  margin: 0 auto; 
+                  background: rgba(255, 255, 255, 0.95); 
+                  border-radius: 20px; 
+                  box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
+                  overflow: hidden; 
+                  backdrop-filter: blur(10px);
+              }
+              .header { 
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  color: white; 
+                  padding: 30px 20px; 
+                  text-align: center; 
+              }
+              .header h1 { 
+                  font-size: 28px; 
+                  font-weight: bold; 
+                  margin-bottom: 8px;
+              }
+              .header p {
+                  opacity: 0.9;
+                  font-size: 14px;
+              }
+              .content { 
+                  padding: 30px 20px; 
+              }
+              .feature-card {
+                  background: #f8f9fa;
+                  border-radius: 12px;
+                  padding: 20px;
+                  margin-bottom: 16px;
+                  border-left: 4px solid #667eea;
+              }
+              .feature-card h3 {
+                  color: #333;
+                  margin-bottom: 8px;
+                  font-size: 16px;
+              }
+              .feature-card p {
+                  color: #666;
+                  font-size: 14px;
+                  line-height: 1.6;
+              }
+              .btn {
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  color: white;
+                  border: none;
+                  padding: 12px 24px;
+                  border-radius: 8px;
+                  font-size: 16px;
+                  font-weight: bold;
+                  cursor: pointer;
+                  width: 100%;
+                  margin-top: 10px;
+                  transition: transform 0.2s;
+              }
+              .btn:active {
+                  transform: scale(0.98);
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <div class="header">
+                  <h1>剧情织造机</h1>
+                  <p>Interactive Story Game Editor</p>
+              </div>
+              <div class="content">
+                  <div class="feature-card">
+                      <h3>📖 故事编辑</h3>
+                      <p>创建复杂的分支剧情，管理角色、场景和对话选项</p>
+                  </div>
+                  <div class="feature-card">
+                      <h3>🎮 交互体验</h3>
+                      <p>实时预览游戏效果，支持多种交互方式</p>
+                  </div>
+                  <div class="feature-card">
+                      <h3>💾 数据同步</h3>
+                      <p>自动保存进度，云端同步你的创作内容</p>
+                  </div>
+                  <button class="btn" onclick="alert('正在开发中...')">
+                      开始创作
+                  </button>
+              </div>
+          </div>
+          <script>
+              document.addEventListener('deviceready', function() {
+                  console.log('Cordova is ready');
+              }, false);
+          </script>
+      </body>
+      </html>
+      EOF
+          fi
+
+      - name: Update config.xml
+        run: |
+          cat > cordova-todo/todo-cordova/config.xml << 'EOF'
+      <?xml version='1.0' encoding='utf-8'?>
+      <widget id="com.dramaweaver.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+          <name>剧情织造机</name>
+          <description>
+              交互式剧情游戏编辑器 - 创造属于你的故事世界
+          </description>
+          <author email="support@dramaweaver.com" href="https://github.com/guyeu9/Interactive-story-game-editor">
+              DramaWeaver Team
+          </author>
+          <content src="index.html" />
+          
+          <preference name="Orientation" value="portrait" />
+          <preference name="Fullscreen" value="false" />
+          <preference name="BackgroundColor" value="0x667eea" />
+          <preference name="KeepRunning" value="true" />
+          
+          <access origin="*" />
+          <allow-intent href="http://*/*" />
+          <allow-intent href="https://*/*" />
+          <allow-intent href="tel:*" />
+          <allow-intent href="sms:*" />
+          <allow-intent href="mailto:*" />
+          <allow-intent href="geo:*" />
+          
+          <platform name="android">
+              <preference name="android-minSdkVersion" value="22" />
+              <preference name="android-targetSdkVersion" value="34" />
+              <allow-intent href="market:*" />
+          </platform>
+      </widget>
+      EOF
+
+      - name: Add Android platform
+        run: |
+          cd cordova-todo/todo-cordova
+          cordova platform add android@12.0.1 || cordova platform add android
+
+      - name: Build Android APK
+        run: |
+          cd cordova-todo/todo-cordova
+          cordova build android --release
+          echo "APK build completed"
+          ls -lh platforms/android/app/build/outputs/apk/release/
+
+      - name: Sign APK (Optional)
+        if: env.KEYSTORE_BASE64 != ''
+        run: |
+          cd cordova-todo/todo-cordova
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+            -keystore release.keystore \
+            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
+            -keypass "${{ secrets.KEY_PASSWORD }}" \
+            platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk \
+            "${{ secrets.KEY_ALIAS }}"
+          
+          # Align the APK
+          ${ANDROID_HOME}/build-tools/34.0.0/zipalign -v 4 \
+            platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk \
+            platforms/android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Rename APK
+        run: |
+          cd cordova-todo/todo-cordova
+          VERSION=$(grep version config.xml | head -1 | sed 's/.*version="\([^"]*\)".*/\1/')
+          BUILD_DATE=$(date +%Y%m%d-%H%M%S)
+          
+          if [ -f "platforms/android/app/build/outputs/apk/release/app-release.apk" ]; then
+              APK_FILE="platforms/android/app/build/outputs/apk/release/app-release.apk"
+          else
+              APK_FILE="platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk"
+          fi
+          
+          cp "$APK_FILE" "dramaweaver-${VERSION}-${BUILD_DATE}.apk"
+          echo "APK renamed to: dramaweaver-${VERSION}-${BUILD_DATE}.apk"
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dramaweaver-android-apk
+          path: cordova-todo/todo-cordova/dramaweaver-*.apk
+          retention-days: 30
+
+      - name: Create Release Summary
+        if: success()
+        run: |
+          cat > $GITHUB_STEP_SUMMARY << EOF
+      # 🎉 Android APK 构建成功！
+      
+      构建信息：
+      - **构建时间**: $(date)
+      - **Cordova版本**: $(cordova --version)
+      - **Node.js版本**: $(node --version)
+      
+      APK 文件已上传到 Artifacts，可以在工作流运行结果中下载。
+      
