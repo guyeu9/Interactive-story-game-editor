@@ -34,11 +34,17 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install Android Build Tools
+        run: |
+          sdkmanager "build-tools;33.0.2"
+          sdkmanager --list | grep build-tools
+
       - name: Setup Gradle 8.8
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.8'
           cache: false
+
       - name: Install Cordova CLI
         run: |
           npm install -g cordova@12.0.0
