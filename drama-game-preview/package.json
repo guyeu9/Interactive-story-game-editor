@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "clean": "pnpm store prune && rm -rf .next node_modules tsconfig.tsbuildinfo pnpm-lock.yaml",
+    "fresh": "pnpm clean && pnpm install",
+    "rebuild": "pnpm fresh && pnpm run build"
   },
   "dependencies": {
     "lucide-react": "^0.562.0",
