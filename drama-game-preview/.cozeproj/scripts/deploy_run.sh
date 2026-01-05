@@ -2,4 +2,4 @@
 set -e
 
 echo "Starting production server on port 5000..."
-pnpm run start -- --port 5000 --host 0.0.0.0
+NODE_ENV=production PORT=5000 HOSTNAME=0.0.0.0 pnpm run start
